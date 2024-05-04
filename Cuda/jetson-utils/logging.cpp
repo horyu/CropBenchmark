@@ -21,7 +21,7 @@
  */
  
 #include "logging.h"
-#include <strings.h>
+#include "strings.h"
 
 
 // set default logging options

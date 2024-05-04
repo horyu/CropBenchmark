@@ -25,7 +25,7 @@
 
 #include <string>
 #include <string.h>
-#include <strings.h>
+#include "strings.h"
 
 
 #define ARGC_START 0

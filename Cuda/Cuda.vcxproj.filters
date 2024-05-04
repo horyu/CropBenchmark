@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CudaCompile Include="jetson-utils\cudaCrop.cu">
+      <Filter>JetsonUtils</Filter>
+    </CudaCompile>
+    <CudaCompile Include="jetson-utils\cudaGrayscale.cu">
+      <Filter>JetsonUtils</Filter>
+    </CudaCompile>
+    <CudaCompile Include="jetson-utils\cudaRGB.cu">
+      <Filter>JetsonUtils</Filter>
+    </CudaCompile>
+    <CudaCompile Include="jetson-utils\cudaYUV-NV12.cu">
+      <Filter>JetsonUtils</Filter>
+    </CudaCompile>
+    <CudaCompile Include="jetson-utils\cudaYUV-YUYV.cu">
+      <Filter>JetsonUtils</Filter>
+    </CudaCompile>
+    <CudaCompile Include="jetson-utils\cudaYUV-YV12.cu">
+      <Filter>JetsonUtils</Filter>
+    </CudaCompile>
+    <CudaCompile Include="kernel.cu" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="JetsonUtils">
+      <UniqueIdentifier>{e22f3c9b-3247-47aa-9887-c8bbaf3198ff}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="jetson-utils\alphanum.h">
+      <Filter>JetsonUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="jetson-utils\commandLine.h">
+      <Filter>JetsonUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="jetson-utils\csvReader.h">
+      <Filter>JetsonUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="jetson-utils\csvReader.hpp">
+      <Filter>JetsonUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="jetson-utils\cudaBayer.h">
+      <Filter>JetsonUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="jetson-utils\cudaColorspace.h">
+      <Filter>JetsonUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="jetson-utils\cudaCrop.h">
+      <Filter>JetsonUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="jetson-utils\cudaGrayscale.h">
+      <Filter>JetsonUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="jetson-utils\cudaMappedMemory.h">
+      <Filter>JetsonUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="jetson-utils\cudaMath.h">
+      <Filter>JetsonUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="jetson-utils\cudaRGB.h">
+      <Filter>JetsonUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="jetson-utils\cudaUtility.h">
+      <Filter>JetsonUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="jetson-utils\cudaVector.h">
+      <Filter>JetsonUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="jetson-utils\cudaYUV.h">
+      <Filter>JetsonUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="jetson-utils\filesystem.h">
+      <Filter>JetsonUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="jetson-utils\imageFormat.h">
+      <Filter>JetsonUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="jetson-utils\imageIO.h">
+      <Filter>JetsonUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="jetson-utils\logging.h">
+      <Filter>JetsonUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="jetson-utils\stb\stb_image.h">
+      <Filter>JetsonUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="jetson-utils\stb\stb_image_resize.h">
+      <Filter>JetsonUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="jetson-utils\stb\stb_image_write.h">
+      <Filter>JetsonUtils</Filter>
+    </ClInclude>
+    <ClInclude Include="jetson-utils\strings.h">
+      <Filter>JetsonUtils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="jetson-utils\commandLine.cpp">
+      <Filter>JetsonUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="jetson-utils\cudaBayer.cpp">
+      <Filter>JetsonUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="jetson-utils\cudaColorspace.cpp">
+      <Filter>JetsonUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="jetson-utils\filesystem.cpp">
+      <Filter>JetsonUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="jetson-utils\imageIO.cpp">
+      <Filter>JetsonUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="jetson-utils\logging.cpp">
+      <Filter>JetsonUtils</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="jetson-utils\imageFormat.inl">
+      <Filter>JetsonUtils</Filter>
+    </None>
+  </ItemGroup>
+</Project>

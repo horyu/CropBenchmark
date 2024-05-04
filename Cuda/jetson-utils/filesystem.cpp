@@ -30,24 +30,26 @@
 #include <string>
 #include <fstream>
 #include <streambuf>
-#include <glob.h>
+//#include <glob.h>
+
+#include <filesystem>
 
 #include "logging.h"
 
 
-// absolutePath
-std::string absolutePath( const std::string& relative_path )
-{
-	if( relative_path.size() != 0 )
-	{
-		const char first_char = relative_path[0];
-
-		if( first_char == '/' || first_char == '\\' || first_char == '~' )
-			return relative_path;
-	}
-
-	return pathJoin(Process::GetWorkingDir(), relative_path);
-}
+//// absolutePath
+//std::string absolutePath( const std::string& relative_path )
+//{
+//	if( relative_path.size() != 0 )
+//	{
+//		const char first_char = relative_path[0];
+//
+//		if( first_char == '/' || first_char == '\\' || first_char == '~' )
+//			return relative_path;
+//	}
+//
+//	return pathJoin(Process::GetWorkingDir(), relative_path);
+//}
 
 
 // locateFile
@@ -65,26 +67,26 @@ std::string locateFile( const std::string& path, std::vector<std::string>& locat
 	if( fileExists(path.c_str()) )
 		return path;
 
-	// add standard search locations
-	locations.push_back(Process::GetExecutableDir());
+	//// add standard search locations
+	//locations.push_back(Process::GetExecutableDir());
 
-	locations.push_back("/usr/local/bin/");
-	locations.push_back("/usr/local/");
-	locations.push_back("/opt/");
+	//locations.push_back("/usr/local/bin/");
+	//locations.push_back("/usr/local/");
+	//locations.push_back("/opt/");
 
-	locations.push_back("images/");
-	locations.push_back("/usr/local/bin/images/");
+	//locations.push_back("images/");
+	//locations.push_back("/usr/local/bin/images/");
 
-	// check each location until the file is found
-	const size_t numLocations = locations.size();
+	//// check each location until the file is found
+	//const size_t numLocations = locations.size();
 
-	for( size_t n=0; n < numLocations; n++ )
-	{
-		const std::string str = pathJoin(locations[n], path);
+	//for( size_t n=0; n < numLocations; n++ )
+	//{
+	//	const std::string str = pathJoin(locations[n], path);
 
-		if( fileExists(str.c_str()) )
-			return str;
-	}
+	//	if( fileExists(str.c_str()) )
+	//		return str;
+	//}
 
 	return "";
 }
@@ -160,133 +162,133 @@ std::string readFile( const std::string& path )
 }
 
 
-// listDir
-bool listDir( const std::string& path_in, std::vector<std::string>& output, uint32_t mask )
-{
-	std::string path = path_in;
- 
-	if( path.size() == 0 )
-		return false;
-
-	// add a wildcard under directories, otherwise just the dir will be returned
-	const bool pathIsDir = fileIsType(path, FILE_DIR|FILE_LINK);
-
-	if( pathIsDir )
-		path = pathJoin(path, "*");
-
-	// glob the files - https://www.man7.org/linux/man-pages/man3/glob.3.html
-	glob_t globList;
-
-	const int result = glob(path.c_str(), GLOB_PERIOD|GLOB_MARK|GLOB_BRACE|GLOB_TILDE_CHECK, NULL, &globList);
-
-	if( result != 0 )
-	{
-		if( result == GLOB_NOSPACE )
-		{
-			LogError("listDir('%s') - ran out of memory\n", path.c_str());
-		}		
-		else if( result == GLOB_ABORTED )
-		{
-			LogError("listDir('%s') - aborted due to read error or permissions\n", path.c_str());
-		}
-		else if( result == GLOB_NOMATCH )
-		{
-			const char firstChar = path[0];
-
-			// if nothing was found and a full path wasn't specified, try the exe path
-			if( firstChar != '.' && firstChar != '/' && firstChar != '\\' && firstChar != '*' && firstChar != '?' && firstChar != '~' )
-				return listDir(pathJoin(Process::GetExecutableDir(), path), output, mask);
-			else
-				LogError("listDir('%s') - found no matches\n", path.c_str());
-		}
-
-		return false;
-	}
-
-	// populate the output vector, and filter by file type
-	for( size_t n=0; n < globList.gl_pathc; n++ )
-	{
-		// if there's a type mask, check that it matches
-		if( mask != 0 && !fileIsType(globList.gl_pathv[n], mask) )
-			continue; 
-
-		output.push_back(globList.gl_pathv[n]);
-	}
-		
-	globfree(&globList);
-
-	// sort list alphanumerically (glob actually already does this)
-	std::sort(output.begin(), output.end(), doj::alphanum_less<std::string>());
-
-	if( output.size() == 0 )
-	{
-		LogError("%s didn't match any files\n", path.c_str());
-		return false;
-	}
-
-	return true;
-}
-
-
-// fileType
-uint32_t fileType( const std::string& path )
-{
-	if( path.size() == 0 )
-		return FILE_MISSING;
-
-	struct stat fileStat;
-	const int result = stat(path.c_str(), &fileStat);
-
-	if( result == -1 )
-	{
-		//printf("%s does not exist.\n", path.c_str());
-		return FILE_MISSING;
-	}
-
-	if( S_ISREG(fileStat.st_mode) )
-		return FILE_REGULAR;
-	else if( S_ISDIR(fileStat.st_mode) )
-		return FILE_DIR;
-	else if( S_ISLNK(fileStat.st_mode) )
-		return FILE_LINK;
-	else if( S_ISCHR(fileStat.st_mode) )
-		return FILE_CHAR;
-	else if( S_ISBLK(fileStat.st_mode) )
-		return FILE_BLOCK;
-	else if( S_ISFIFO(fileStat.st_mode) )
-		return FILE_FIFO;
-	else if( S_ISSOCK(fileStat.st_mode) )
-		return FILE_SOCKET;
-	
-	return FILE_MISSING;
-}
+//// listDir
+//bool listDir( const std::string& path_in, std::vector<std::string>& output, uint32_t mask )
+//{
+//	std::string path = path_in;
+// 
+//	if( path.size() == 0 )
+//		return false;
+//
+//	// add a wildcard under directories, otherwise just the dir will be returned
+//	const bool pathIsDir = fileIsType(path, FILE_DIR|FILE_LINK);
+//
+//	if( pathIsDir )
+//		path = pathJoin(path, "*");
+//
+//	// glob the files - https://www.man7.org/linux/man-pages/man3/glob.3.html
+//	glob_t globList;
+//
+//	const int result = glob(path.c_str(), GLOB_PERIOD|GLOB_MARK|GLOB_BRACE|GLOB_TILDE_CHECK, NULL, &globList);
+//
+//	if( result != 0 )
+//	{
+//		if( result == GLOB_NOSPACE )
+//		{
+//			LogError("listDir('%s') - ran out of memory\n", path.c_str());
+//		}		
+//		else if( result == GLOB_ABORTED )
+//		{
+//			LogError("listDir('%s') - aborted due to read error or permissions\n", path.c_str());
+//		}
+//		else if( result == GLOB_NOMATCH )
+//		{
+//			const char firstChar = path[0];
+//
+//			// if nothing was found and a full path wasn't specified, try the exe path
+//			if( firstChar != '.' && firstChar != '/' && firstChar != '\\' && firstChar != '*' && firstChar != '?' && firstChar != '~' )
+//				return listDir(pathJoin(Process::GetExecutableDir(), path), output, mask);
+//			else
+//				LogError("listDir('%s') - found no matches\n", path.c_str());
+//		}
+//
+//		return false;
+//	}
+//
+//	// populate the output vector, and filter by file type
+//	for( size_t n=0; n < globList.gl_pathc; n++ )
+//	{
+//		// if there's a type mask, check that it matches
+//		if( mask != 0 && !fileIsType(globList.gl_pathv[n], mask) )
+//			continue; 
+//
+//		output.push_back(globList.gl_pathv[n]);
+//	}
+//		
+//	globfree(&globList);
+//
+//	// sort list alphanumerically (glob actually already does this)
+//	std::sort(output.begin(), output.end(), doj::alphanum_less<std::string>());
+//
+//	if( output.size() == 0 )
+//	{
+//		LogError("%s didn't match any files\n", path.c_str());
+//		return false;
+//	}
+//
+//	return true;
+//}
 
 
-// fileIsType
-bool fileIsType( const std::string& path, uint32_t mask )
-{
-	if( path.size() == 0 )
-		return false;
+//// fileType
+//uint32_t fileType( const std::string& path )
+//{
+//	if( path.size() == 0 )
+//		return FILE_MISSING;
+//
+//	struct stat fileStat;
+//	const int result = stat(path.c_str(), &fileStat);
+//
+//	if( result == -1 )
+//	{
+//		//printf("%s does not exist.\n", path.c_str());
+//		return FILE_MISSING;
+//	}
+//
+//	if( S_ISREG(fileStat.st_mode) )
+//		return FILE_REGULAR;
+//	else if( S_ISDIR(fileStat.st_mode) )
+//		return FILE_DIR;
+//	else if( S_ISLNK(fileStat.st_mode) )
+//		return FILE_LINK;
+//	else if( S_ISCHR(fileStat.st_mode) )
+//		return FILE_CHAR;
+//	else if( S_ISBLK(fileStat.st_mode) )
+//		return FILE_BLOCK;
+//	else if( S_ISFIFO(fileStat.st_mode) )
+//		return FILE_FIFO;
+//	else if( S_ISSOCK(fileStat.st_mode) )
+//		return FILE_SOCKET;
+//	
+//	return FILE_MISSING;
+//}
 
-	const uint32_t type = fileType(path);
-	
-	if( type == FILE_MISSING )
-		return false;
-	
-	if( mask == 0 )
-		return true;
-	
-	if( (type & mask) != type )
-		return false;
-	
-	return true;
-}
+
+//// fileIsType
+//bool fileIsType( const std::string& path, uint32_t mask )
+//{
+//	if( path.size() == 0 )
+//		return false;
+//
+//	const uint32_t type = fileType(path);
+//	
+//	if( type == FILE_MISSING )
+//		return false;
+//	
+//	if( mask == 0 )
+//		return true;
+//	
+//	if( (type & mask) != type )
+//		return false;
+//	
+//	return true;
+//}
 
 
 // fileExists
 bool fileExists( const std::string& path, uint32_t mask )
 {
-	return fileIsType(path, mask);
+	return std::filesystem::exists(path);
 }
 
 

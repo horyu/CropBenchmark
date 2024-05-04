@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6D5FD14C-D6D7-472C-9932-35AEC81629F9}</ProjectGuid>
     <RootNamespace>Cuda</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -41,17 +42,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ProjectDir)jetson-utils;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;WIN64;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>cudart_static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>nppicc.lib;cudart_static.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CudaCompile>
       <TargetMachinePlatform>64</TargetMachinePlatform>
@@ -77,7 +80,48 @@
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <CudaCompile Include="jetson-utils\cudaCrop.cu" />
+    <CudaCompile Include="jetson-utils\cudaGrayscale.cu" />
+    <CudaCompile Include="jetson-utils\cudaRGB.cu" />
+    <CudaCompile Include="jetson-utils\cudaYUV-NV12.cu" />
+    <CudaCompile Include="jetson-utils\cudaYUV-YUYV.cu" />
+    <CudaCompile Include="jetson-utils\cudaYUV-YV12.cu" />
     <CudaCompile Include="kernel.cu" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="jetson-utils\alphanum.h" />
+    <ClInclude Include="jetson-utils\commandLine.h" />
+    <ClInclude Include="jetson-utils\csvReader.h" />
+    <ClInclude Include="jetson-utils\csvReader.hpp" />
+    <ClInclude Include="jetson-utils\cudaBayer.h" />
+    <ClInclude Include="jetson-utils\cudaColorspace.h" />
+    <ClInclude Include="jetson-utils\cudaCrop.h" />
+    <ClInclude Include="jetson-utils\cudaGrayscale.h" />
+    <ClInclude Include="jetson-utils\cudaMappedMemory.h" />
+    <ClInclude Include="jetson-utils\cudaMath.h" />
+    <ClInclude Include="jetson-utils\cudaRGB.h" />
+    <ClInclude Include="jetson-utils\cudaUtility.h" />
+    <ClInclude Include="jetson-utils\cudaVector.h" />
+    <ClInclude Include="jetson-utils\cudaYUV.h" />
+    <ClInclude Include="jetson-utils\filesystem.h" />
+    <ClInclude Include="jetson-utils\imageFormat.h" />
+    <ClInclude Include="jetson-utils\imageIO.h" />
+    <ClInclude Include="jetson-utils\logging.h" />
+    <ClInclude Include="jetson-utils\stb\stb_image.h" />
+    <ClInclude Include="jetson-utils\stb\stb_image_resize.h" />
+    <ClInclude Include="jetson-utils\stb\stb_image_write.h" />
+    <ClInclude Include="jetson-utils\strings.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="jetson-utils\commandLine.cpp" />
+    <ClCompile Include="jetson-utils\cudaBayer.cpp" />
+    <ClCompile Include="jetson-utils\cudaColorspace.cpp" />
+    <ClCompile Include="jetson-utils\filesystem.cpp" />
+    <ClCompile Include="jetson-utils\imageIO.cpp" />
+    <ClCompile Include="jetson-utils\logging.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="jetson-utils\imageFormat.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

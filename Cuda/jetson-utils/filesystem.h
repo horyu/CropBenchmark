@@ -40,7 +40,7 @@
  *
  * @ingroup filesystem
  */
-std::string absolutePath( const std::string& relative_path );
+//std::string absolutePath( const std::string& relative_path );
 
 /**
  * Locate a file from common system locations.
@@ -140,7 +140,7 @@ enum fileTypes
  *
  * @ingroup filesystem
  */
-bool listDir( const std::string& path, std::vector<std::string>& list, uint32_t mask=0 );
+//bool listDir( const std::string& path, std::vector<std::string>& list, uint32_t mask=0 );
 
 /**
  * Return the directory 
@@ -158,14 +158,14 @@ bool fileExists( const std::string& path, uint32_t mask=0 );
  *             The mask should consist of fileTypes OR'd together (e.g. `FILE_REGULAR|FILE_DIR`).
  * @ingroup filesystem
  */
-bool fileIsType( const std::string& path, uint32_t mask );
+//bool fileIsType( const std::string& path, uint32_t mask );
 
 /**
  * Return the file type, or FILE_MISSING if it doesn't exist.
  * @see fileTypes
  * @ingroup filesystem
  */
-uint32_t fileType( const std::string& path );
+//uint32_t fileType( const std::string& path );
 
 /**
  * Return the size (in bytes) of the specified file.
