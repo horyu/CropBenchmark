@@ -3,10 +3,17 @@
 #include "device_launch_parameters.h"
 
 #include <stdio.h>
+#include <string>
+#include <vector>
+#include <filesystem>
+
+#include "logging.h"
 
 #include "imageIO.h"
 #include "cudaCrop.h"
 #include "cudaMappedMemory.h"
+
+namespace fs = std::filesystem;
 
 class CudaMemory {
 public:
@@ -16,11 +23,20 @@ private:
 	uchar3* ptr_;
 };
 
-int main()
+static std::vector<fs::path> listPngPaths(const std::string& directory)
 {
-	const char* input_path = R"(C:\Users\owner\source\repos\CudaCropTest\CudaCropTest\images\sample-2000x1500.png)";
-	const char* output_path = R"(C:\Users\owner\source\repos\CudaCropTest\CudaCropTest\images\test.png)";
+	std::vector<fs::path> paths;
+	const fs::path p(directory);
+	for (const fs::path p : fs::directory_iterator(p)) {
+		if (fs::is_regular_file(p) && p.extension() == ".png") {
+			paths.push_back(p);
+		}
+	}
+	return paths;
+}
 
+void processImage(const char* input_path, const char* output_path)
+{
 	uchar3* input_image = NULL;
 	uchar3* output_image = NULL;
 	CudaMemory input_memory(input_image), output_memory(output_image);
@@ -29,18 +45,17 @@ int main()
 
 	// Load image
 	if (!loadImage(input_path, &input_image, &width, &height)) {
-		fprintf(stderr, "loadImage failed!");
-		return 1;
+		fprintf(stderr, "[%s] loadImage failed!", input_path);
+		return;
 	}
-	printf("Image loaded: %d x %d\n", width, height);
 
 	int crop_width = width / 2;
 	int crop_height = height / 3;
 
 	// Allocate output image
 	if (!cudaAllocMapped(&output_image, sizeof(uchar3) * crop_width * crop_height)) {
-		fprintf(stderr, "cudaAllocMapped failed!");
-		return 1;
+		fprintf(stderr, "[%s] cudaAllocMapped failed!", input_path);
+		return;
 	}
 
 	// Crop image
@@ -58,15 +73,47 @@ int main()
 		height
 	);
 	if (cudaStatus != cudaSuccess) {
-		fprintf(stderr, "cudaCrop failed! cudaStatus=%d", cudaStatus);
-		return 1;
+		fprintf(stderr, "[%s] cudaCrop failed! cudaStatus=%d", input_path, cudaStatus);
+		return;
 	}
 
 	// Save image
 	if (!saveImage(output_path, output_image, crop_width, crop_height)) {
-		fprintf(stderr, "saveImage failed!");
-		return 1;
+		fprintf(stderr, "[%s] saveImage failed!", input_path);
+		return;
 	}
+}
+
+int main()
+{
+	Log::SetLevel(Log::Level::SILENT);
+
+	const fs::path input_directory = R"(C:\Users\owner\source\repos\CropBenchmark\images)";
+
+	// input_directory\cropped ディレクトリを初期化
+	// 存在していたら削除して再作成、存在していなかったら作成
+	const fs::path output_directory = input_directory / "cropped";
+	if (fs::exists(output_directory)) {
+		fs::remove_all(output_directory);
+	}
+	fs::create_directory(output_directory);
+
+	const std::vector<fs::path> images = listPngPaths(input_directory.string());
+
+	// ここから時間計測
+	const clock_t start = clock();
+
+	for (const fs::path image : images) {
+		const fs::path output_path = output_directory / image.filename();
+		processImage(image.string().c_str(), output_path.string().c_str());
+	}
+
+	const clock_t end = clock();
+	const size_t size = images.size();
+	const double time = (double)(end - start) / CLOCKS_PER_SEC;
+	printf("処理時間   : %f\n", time);
+	printf("[files/s]  : %f\n", size / time);
+	printf("[s/files]  : %f\n", time / size);
 
 	return 0;
 }
