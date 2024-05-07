@@ -1,4 +1,6 @@
-﻿#include <stdio.h>
+﻿#include <omp.h>
+
+#include <stdio.h>
 #include <string>
 #include <vector>
 #include <filesystem>
@@ -57,6 +59,7 @@ int main()
 	// ここから時間計測
 	const clock_t start = clock();
 
+#pragma omp parallel for
 	for (int i = 0; i < size; i++) {
 		const fs::path input_path = images[i];
 		//printf("[%d]%s\n", omp_get_thread_num(), input_path.string().c_str());
