@@ -5,16 +5,32 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cuda", "Cuda\Cuda.vcxproj", "{6D5FD14C-D6D7-472C-9932-35AEC81629F9}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenCV", "OpenCV\OpenCV.vcxproj", "{A95961C6-E50C-4705-B971-2D53AFE7B1EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{6D5FD14C-D6D7-472C-9932-35AEC81629F9}.Debug|x64.ActiveCfg = Debug|x64
 		{6D5FD14C-D6D7-472C-9932-35AEC81629F9}.Debug|x64.Build.0 = Debug|x64
+		{6D5FD14C-D6D7-472C-9932-35AEC81629F9}.Debug|x86.ActiveCfg = Debug|x64
+		{6D5FD14C-D6D7-472C-9932-35AEC81629F9}.Debug|x86.Build.0 = Debug|x64
 		{6D5FD14C-D6D7-472C-9932-35AEC81629F9}.Release|x64.ActiveCfg = Release|x64
 		{6D5FD14C-D6D7-472C-9932-35AEC81629F9}.Release|x64.Build.0 = Release|x64
+		{6D5FD14C-D6D7-472C-9932-35AEC81629F9}.Release|x86.ActiveCfg = Release|x64
+		{6D5FD14C-D6D7-472C-9932-35AEC81629F9}.Release|x86.Build.0 = Release|x64
+		{A95961C6-E50C-4705-B971-2D53AFE7B1EF}.Debug|x64.ActiveCfg = Debug|x64
+		{A95961C6-E50C-4705-B971-2D53AFE7B1EF}.Debug|x64.Build.0 = Debug|x64
+		{A95961C6-E50C-4705-B971-2D53AFE7B1EF}.Debug|x86.ActiveCfg = Debug|Win32
+		{A95961C6-E50C-4705-B971-2D53AFE7B1EF}.Debug|x86.Build.0 = Debug|Win32
+		{A95961C6-E50C-4705-B971-2D53AFE7B1EF}.Release|x64.ActiveCfg = Release|x64
+		{A95961C6-E50C-4705-B971-2D53AFE7B1EF}.Release|x64.Build.0 = Release|x64
+		{A95961C6-E50C-4705-B971-2D53AFE7B1EF}.Release|x86.ActiveCfg = Release|Win32
+		{A95961C6-E50C-4705-B971-2D53AFE7B1EF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
