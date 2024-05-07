@@ -1,6 +1,7 @@
-﻿
-#include "cuda_runtime.h"
+﻿#include "cuda_runtime.h"
 #include "device_launch_parameters.h"
+
+#include <omp.h>
 
 #include <stdio.h>
 #include <string>
@@ -99,17 +100,20 @@ int main()
 	fs::create_directory(output_directory);
 
 	const std::vector<fs::path> images = listPngPaths(input_directory.string());
+	const int size = images.size();
 
 	// ここから時間計測
 	const clock_t start = clock();
 
-	for (const fs::path image : images) {
-		const fs::path output_path = output_directory / image.filename();
-		processImage(image.string().c_str(), output_path.string().c_str());
+#pragma omp parallel for
+	for (int i = 0; i < size; i++) {
+		const fs::path input_path = images[i];
+		//printf("[%d]%s\n", omp_get_thread_num(), input_path.string().c_str());
+		const fs::path output_path = output_directory / input_path.filename();
+		processImage(input_path.string().c_str(), output_path.string().c_str());
 	}
 
 	const clock_t end = clock();
-	const size_t size = images.size();
 	const double time = (double)(end - start) / CLOCKS_PER_SEC;
 	printf("処理時間   : %f\n", time);
 	printf("[files/s]  : %f\n", size / time);
